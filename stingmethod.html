@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Untitled Document</title>
+<style type="text/css">
+	hr {color: red; background-color: red; height: 3px; width: 700px; text-align: left; margin-top:50px; margin-bottom: 50px; margin-left: 0px}
+</style>
+
+<!--http://www.w3schools.com/jsref/jsref_obj_string.asp-->
+<script type="text/javascript">
+
+if (window.addEventListener) {
+    // DOM2 standard
+    window.addEventListener("load", loadEventListeners, false);
+}
+else {
+    // IE8 and earlier
+    window.attachEvent("onload", loadEventListeners);
+}
+
+
+
+
+function loadEventListeners() {
+			if(document.addEventListener) {
+					document.getElementById("lengthBtn").addEventListener("click", showLength, false);
+					
+					document.getElementById("upperCaseBox").addEventListener("blur", upperIt, false);
+					
+					document.getElementById("trimBtn").addEventListener("click", trimMe, false);
+					
+					document.getElementById("searchStringBtn").addEventListener("click", findString, false);
+					
+					document.getElementById("extractBtn").addEventListener("click", showSubstring, false);
+					
+					document.getElementById("extensionBtn").addEventListener("click", showExtension ,false);
+					
+					document.getElementById("extractWordsBtn").addEventListener("click", showWord , false);
+			}//end of if
+			else {
+				
+				document.getElementById("upperCaseBox").attachEvent("onblur", upperIt);
+				
+				document.getElementById("lengthBtn").attachEvent("onclick", showLength);
+				
+				document.getElementById("trimBtn").attachEvent("onclick", trimMe);
+
+				document.getElementById("searchStringBtn").attachEvent("onclick", findString);	
+				
+				document.getElementById("extractBtn").attachEvent("onclick", showSubstring);	
+				
+				document.getElementById("extensionBtn").attachEvent("onclick", showExtension);
+				
+				document.getElementById("extractWordsBtn").attachEvent("onclick", showWord);		
+			}//end of else
+		}//end of loadEventListener function
+		
+		function showLength() {
+			var textBoxString =document.myForm.lengthBox.value;
+			alert("The length of the string is " + textBoxString.length);
+		}
+		
+		function upperIt() {
+			var myUpper = document.myForm.upperCaseBox.value;
+			document.myForm.upperCaseBox.value= myUpper.toUpperCase();
+		}
+		
+		function trimMe() {
+			//var word = "congratulations"
+				//alert(word.substr(3, 4));// this will pull out the word grat
+				//substr(startingIndex, lengthWithTheStartingIndexCountingAs1);
+			
+				while(document.myForm.toTrim.value.charAt(0)==" ") {
+					document.myForm.toTrim.value = document.myForm.toTrim.value.substr(1, document.myForm.toTrim.value.length-1);
+				}
+				while(document.myForm.toTrim.value.charAt(document.myForm.toTrim.value.length -1)==" ") {
+					document.myForm.toTrim.value = document.myForm.toTrim.value.substr(0, document.myForm.toTrim.value.length-1)
+				}
+		}
+
+		function findString() {
+			var inputStr = document.myForm.mainString.value.toUpperCase;
+			//alert(inputStr);
+			var searchStr = document.myForm.searchString.value.toUpperCase;
+			//alert(searchStr);
+			var stringSearch = inputStr.indexOf(searchStr);//when there is no match, the value that gets placed in the stringsearch variable is -1
+			
+			if(stringSearch==-1){
+				alert("The search criteria that you entered doesn't exist");
+			}
+			else {
+				alert("The string you searched for, " + searchStr + " starts at position: " + stringSearch);
+				}
+			}	
+			function showSubstring() {
+				//substring(startIndex, lengthTakenAtTheBeginningOfTheString)
+				var myString = document.myForm.txtSubstring.value;
+				var startChar = document.myForm.txtStartChar.value;
+				
+				var stopChar = document.myForm.txtStopChar.value;
+				
+				var theCriteria = /^[0-9]/;
+				if(theCriteria.test(startChar) && theCriteria.test(stopChar)){
+					
+			
+				
+				var myNewString = myString.substring(startChar, stopChar);
+				alert(myNewString);
+				
+				}
+				else{
+					alert("Please enter a numeric value in the second and third text box");
+				}
+			}
+			
+			function showExtension(){
+				var myFile = document.myForm.fileExt.value;
+				var fileNameLength = myFile.length;
+				var startChar = fileNameLength-4;
+				var myExtension = myFile.substring(startChar, fileNameLength);
+				//photo.jpg
+				//fileNameLength = 9
+				//startChar = 5
+				//myExtension = myFile.substring(5, 9)
+				//alert("The file extension is " + myExtension);
+				
+				if(myExtension==".gif" || myExtension==".jpg" || myExtension=="jpeg"){
+					document.getElementById("allowed").style.display="inline";
+					document.getElementById("allowed").style.color="red";
+					document.getElementById("allowed").style.fontStyle="italic";
+					document.getElementById("allowed").innerHTML = "Great!! You have entered a valid file extension";
+				}
+				else{
+					document.getElementById("allowed").style.display="inline";
+					document.getElementById("allowed").style.color="red";
+					document.getElementById("allowed").style.fontStyle="italic";
+					document.getElementById("allowed").innerHTML = "Not a valid file extension";
+				}
+			}
+			
+			function showWord() {
+				var myWord = document.myForm.words.value;
+				//split(delimiter, numberOfWordsToExtract); //delimiter means seperated by what?
+				var newWord = myWord.split(" ",  2);
+				//alert(newWord);
+				var partsOfName = myWord.split(" ") // if no second value then all words will be extracted. They get placed into an array.
+				
+				var lastName = partsOfName [partsOfName.length-1]; //to get the index value of the word that you want to extract
+				
+				alert("You last name is " + lastName);
+			}
+		
+</script>
+</head>
+<body>
+<form name="myForm"> 
+<h2>Using the length property to find the length of a string</h2>
+
+      Enter a string here: 
+     <input type="text" id="lengthBox">
+     <p> 
+       <input type="button" value="Show length of the string!" id="lengthBtn">
+       </p>
+<hr />
+
+<h2>Using the toUpperCase() method to change any lower case letters to uppercase</h2>	
+
+   Enter a string here: 
+   <input type="text" id="upperCaseBox">
+<hr />
+
+
+<h2>Using the trim function to remove spaces before and after the string</h2>
+
+      Enter a string here: 
+     <input type="text" id="toTrim">
+     <p> 
+       <input type="button" value="Click Here to Trim" id="trimBtn">
+       </p>
+<hr />
+
+
+
+
+
+<h2>Using the indexOf() method to do a search</h2>
+
+	Enter a string:<br />
+	<input type="text" id="mainString"><br /><br />
+	Enter a string to look for:<br />
+	<input type="text" id="searchString" name="text" ><br /><br />
+	<input type="button" value="Search"  id="searchStringBtn" />
+<hr />
+
+
+
+<h2>Using the substring() method to extract from a string</h2>
+
+	Enter a string:<br />
+
+	<input type="text" id="txtSubstring"><br /><br />
+	Start at:<br />
+	<input type="text" id="txtStartChar"><br />
+	Stop at:<br />
+	<input type="text" id="txtStopChar"><br /><br />
+
+	<input type="button" id="extractBtn" value="Show me the substring!"><br /><br />
+<hr />
+
+
+
+<h2>Using the substring() method to extract the last four digits of a string</h2>
+
+	Enter a name with a file extension<br />
+	<span id="allowed" style="display: none">Hidden Text</span>
+
+	<br />
+	<input type="text" id="fileExt"><br /><br />
+
+	<input type="button" value="Click here to extract the file extension"  id="extensionBtn">
+
+
+<hr />
+
+
+
+<h2>Using the split() method to extract out one or more words</h2>
+
+	Enter your first, middle and last name<br />
+
+	<br />
+	<input type="text" id="words"><br /><br />
+
+	<input type="button" value="Click here to extract out one or more words"  id="extractWordsBtn">
+
+
+</form>
+<div>&nbsp;</div><div>&nbsp;</div><div>&nbsp;</div>
+</body>
+</html>
